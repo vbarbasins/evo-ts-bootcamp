@@ -1,15 +1,24 @@
 import React from 'react';
 import './App.css';
 
+import { BarSet } from './components/BarSet';
+
 import { createRandomNumberArray } from './utils/appUtils';
+
+const MAX_NUMBER = 100;
+const NUMBER_COUNT = 40;
+const SORT_TIMEOUT = 75;
 
 interface AppProps {}
 
 interface AppState {
   sorting: boolean,
+  sortingState: {
+    iteration: number,
+    currentIndex: number,
+  },
   numbers: number[],
-  lastI: number,
-  lastJ: number,
+  solved: boolean,
 }
 
 class App extends React.Component<{}, AppState> {
@@ -17,67 +26,75 @@ class App extends React.Component<{}, AppState> {
     super(props);
     this.state = {
       sorting: false,
-      numbers: createRandomNumberArray(100, 30),
-      lastI: 0,
-      lastJ: 0,
+      sortingState: { iteration: 0, currentIndex: 0 },
+      numbers: createRandomNumberArray(MAX_NUMBER, NUMBER_COUNT),
+      solved: false,
     };
   }
 
-  newSetHandler = () => {
+  componentDidUpdate(): void {
+    const { sorting } = this.state;
+    if (sorting) setTimeout(this.sortNumbers, SORT_TIMEOUT);
+  }
+
+  newSetHandler = (): void => {
     this.setState({
       sorting: false,
-      numbers: createRandomNumberArray(100, 30),
-      lastI: 0,
-      lastJ: 0,
+      sortingState: { iteration: 0, currentIndex: 0 },
+      numbers: createRandomNumberArray(MAX_NUMBER, NUMBER_COUNT),
+      solved: false,
     });
   }
 
-  progressHandler = () => {
+  progressHandler = (): void => {
     const { sorting } = this.state;
-    if (!sorting) {
-      this.setState((prevState) => ({
-        ...prevState,
-        sorting: true,
-      }));
-      setInterval(this.sortNumbers, 100);
+    this.setState((prevState) => ({ ...prevState, sorting: !sorting }));
+  }
+
+  sortNumbers = (): void => {
+    const { numbers, sortingState } = this.state;
+    const { iteration, currentIndex } = sortingState;
+    if (iteration < numbers.length) {
+      const newNumbers = [...numbers];
+      const nextIndex = currentIndex + 1;
+      if (numbers[currentIndex] > numbers[nextIndex]) {
+        const tmp = newNumbers[currentIndex];
+        newNumbers[currentIndex] = newNumbers[nextIndex];
+        newNumbers[nextIndex] = tmp;
+      }
+      this.setState((prevState) => {
+        const continueIteration = nextIndex < numbers.length - iteration;
+        return {
+          ...prevState,
+          numbers: newNumbers,
+          sortingState: {
+            iteration: continueIteration ? iteration : iteration + 1,
+            currentIndex: continueIteration ? nextIndex : 0,
+          },
+        };
+      });
     } else {
       this.setState((prevState) => ({
         ...prevState,
         sorting: false,
-      }));
-    }
-  }
-
-  sortNumbers = () => {
-    const { numbers, lastI, lastJ } = this.state;
-    if (lastI < numbers.length) {
-      const newNumbers = [...numbers];
-      const nextJ = lastJ + 1;
-      if (numbers[lastJ] > numbers[nextJ]) {
-        const tmp = newNumbers[lastJ];
-        newNumbers[lastJ] = newNumbers[nextJ];
-        newNumbers[nextJ] = tmp;
-      }
-      this.setState((prevState) => ({
-        ...prevState,
-        numbers: newNumbers,
-        lastI: nextJ < numbers.length - 1 ? prevState.lastI : prevState.lastI + 1,
-        lastJ: nextJ < numbers.length - 1 ? nextJ : 0,
+        solved: true,
       }));
     }
   }
 
   render() {
-    const { sorting, numbers } = this.state;
+    const { sorting, numbers, solved, sortingState } = this.state;
     return (
-      <div>
+      <div className="App">
+        <h1>Bubble sort 🛁</h1>
+        <BarSet numbers={numbers} currentIndex={sortingState.currentIndex} />
         <button onClick={this.newSetHandler}>
           New set
         </button>
-        <button onClick={this.progressHandler}>
+        <button onClick={this.progressHandler} disabled={solved}>
           {sorting ? 'Pause' : 'Start'}
         </button>
-        <p>{`numbers: ${numbers.toString()}`}</p>
+        <p>{`Sorting is ${solved ? '' : 'not'} solved`}</p>
       </div>
     );
   }
