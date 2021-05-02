@@ -5,10 +5,10 @@ export type TreeNode<T> = {
 };
 
 export enum TraverseType {
-  DFS_INORDER = 'DFS_INORDER',
-  DFS_PREORDER = 'DFS_PREORDER',
-  DFS_POSTORDER = 'DFS_POSTORDER',
-  BFS = 'BFS',
+  depthFSInOrder = 'DFS_INORDER',
+  depthFSPreOrder = 'DFS_PREORDER',
+  depthFSPostOrder = 'DFS_POSTORDER',
+  breadthFS = 'BFS',
 }
 
 export interface Tree<T> {
@@ -24,12 +24,12 @@ export class BinaryTree<T> implements Tree<T> {
     this.rootNode = treeNode;
   }
 
-  setTreeNode(treeNode: TreeNode<T>): this {
+  public setTreeNode(treeNode: TreeNode<T>): this {
     this.rootNode = treeNode;
     return this;
   }
 
-  getColumn(targetColumn: number): T[] {
+  public getColumn(targetColumn: number): T[] {
     const { value, left, right } = this.rootNode;
     const currentColumn = 0;
     const result: T[] = [];
@@ -39,7 +39,7 @@ export class BinaryTree<T> implements Tree<T> {
     return [...traverseLeft, ...result, ...traverseRight];
   }
 
-  traverse(type: TraverseType): T[] {
+  public traverse(type: TraverseType): T[] {
     const { value, left, right } = this.rootNode;
     const traverseLeft = left === null ? [] : new BinaryTree(left).traverse(type);
     const traverseRight = right === null ? [] : new BinaryTree(right).traverse(type);
@@ -49,7 +49,7 @@ export class BinaryTree<T> implements Tree<T> {
     }
 
     switch (type) {
-      case TraverseType.BFS: {
+      case TraverseType.breadthFS: {
         const result: T[] = [];
         const queue: TreeNode<T>[] = [this.rootNode];
         while (queue.length > 0) {
@@ -60,9 +60,9 @@ export class BinaryTree<T> implements Tree<T> {
         }
         return result;
       }
-      case TraverseType.DFS_INORDER: return [...traverseLeft, value, ...traverseRight];
-      case TraverseType.DFS_PREORDER: return [value, ...traverseLeft, ...traverseRight];
-      case TraverseType.DFS_POSTORDER: return [...traverseLeft, ...traverseRight, value];
+      case TraverseType.depthFSInOrder: return [...traverseLeft, value, ...traverseRight];
+      case TraverseType.depthFSPreOrder: return [value, ...traverseLeft, ...traverseRight];
+      case TraverseType.depthFSPostOrder: return [...traverseLeft, ...traverseRight, value];
       default: return assertNever(type);
     }
   }

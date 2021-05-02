@@ -5,7 +5,7 @@ export interface SearchTree extends Tree<number> {
 }
 
 export class BinarySearchTree extends BinaryTree<number> implements SearchTree {
-  has(value: number): boolean {
-    return this.traverse(TraverseType.BFS).includes(value);
+  public has(value: number): boolean {
+    return this.traverse(TraverseType.breadthFS).includes(value);
   }
 }

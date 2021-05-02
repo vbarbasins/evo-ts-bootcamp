@@ -44,10 +44,10 @@ describe('BinaryTree', () => {
     });
 
     describe.each([
-      [TraverseType.DFS_INORDER, givenTree, [10, 40, 2, 67, 43, 1, 46, 5]],
-      [TraverseType.DFS_PREORDER, givenTree, [43, 40, 10, 2, 67, 46, 1, 5]],
-      [TraverseType.DFS_POSTORDER, givenTree, [10, 67, 2, 40, 1, 5, 46, 43]],
-      [TraverseType.BFS, givenTree, [43, 40, 46, 10, 2, 1, 5, 67]],
+      [TraverseType.depthFSInOrder, givenTree, [10, 40, 2, 67, 43, 1, 46, 5]],
+      [TraverseType.depthFSPreOrder, givenTree, [43, 40, 10, 2, 67, 46, 1, 5]],
+      [TraverseType.depthFSPostOrder, givenTree, [10, 67, 2, 40, 1, 5, 46, 43]],
+      [TraverseType.breadthFS, givenTree, [43, 40, 46, 10, 2, 1, 5, 67]],
     ])('.traverse(%p)', (traverseType, given, expected) => {
       it(`should return ${expected}`, () => {
         expect(given.traverse(traverseType)).toStrictEqual(expected);
