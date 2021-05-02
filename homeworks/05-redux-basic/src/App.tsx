@@ -1,11 +1,7 @@
 import React from 'react';
 
-interface AppProps {}
-
-interface AppState {}
-
-class App extends React.Component<AppProps, AppState> {
- 
+class App extends React.Component<{}, {}> {
+  // eslint-disable-next-line class-methods-use-this
   render() {
     return (
       <div className="App">
