@@ -1,5 +1,7 @@
 # Homework 05-redux-basic
 
+Project to show basic redux implementation, where action dispatches and it's affect on redux store can be inspected in redux dev tools
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -19,3 +21,6 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.
 
+## Published project
+
+http://vb-redux-basic.surge.sh/
