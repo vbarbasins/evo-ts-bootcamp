@@ -21,7 +21,7 @@ interface AppState {
   solved: boolean,
 }
 
-class App extends React.Component<{}, AppState> {
+class App extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
     super(props);
     this.state = {
@@ -47,8 +47,7 @@ class App extends React.Component<{}, AppState> {
   }
 
   progressHandler = (): void => {
-    const { sorting } = this.state;
-    this.setState((prevState) => ({ ...prevState, sorting: !sorting }));
+    this.setState(({ sorting }) => ({ sorting: !sorting }));
   }
 
   sortNumbers = (): void => {
@@ -62,10 +61,9 @@ class App extends React.Component<{}, AppState> {
         newNumbers[currentIndex] = newNumbers[nextIndex];
         newNumbers[nextIndex] = tmp;
       }
-      this.setState((prevState) => {
+      this.setState(() => {
         const continueIteration = nextIndex < numbers.length - iteration;
         return {
-          ...prevState,
           numbers: newNumbers,
           sortingState: {
             iteration: continueIteration ? iteration : iteration + 1,
@@ -74,11 +72,10 @@ class App extends React.Component<{}, AppState> {
         };
       });
     } else {
-      this.setState((prevState) => ({
-        ...prevState,
+      this.setState({
         sorting: false,
         solved: true,
-      }));
+      });
     }
   }
 
