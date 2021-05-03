@@ -6,7 +6,7 @@ type SortingDoneResult = {
   }
 }
 
-type SortingStepResult = SortingDoneResult | false
+type SortingStepResult = SortingDoneResult | null
 
 export const makeSortingStep = (
   numbers: number[],
@@ -30,7 +30,7 @@ export const makeSortingStep = (
       },
     };
   }
-  return false;
+  return null;
 };
 
 export const createRandomNumberArray = (
