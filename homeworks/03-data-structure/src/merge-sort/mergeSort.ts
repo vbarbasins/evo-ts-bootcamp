@@ -5,7 +5,7 @@ export type MergeSort = <T>(arr: T[], compare: CompareFunction<T>) => T[];
 export type MergeArrays = <T>(aArr: T[], bArr: T[], compare: CompareFunction<T>) => T[];
 
 export const mergeArrays: MergeArrays = (leftArr, rightArr, compare) => {
-  const arr = [];
+  const arr: typeof leftArr = [];
 
   while (leftArr.length && rightArr.length) {
     if (compare(leftArr[0], rightArr[0]) === -1) {

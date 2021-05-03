@@ -1,6 +1,6 @@
 import {
+  mergeArrays,
   mergeSort,
-  // mergeArrays,
   CompareFunction,
 } from './mergeSort';
 
@@ -32,25 +32,34 @@ const caseSensitiveStringSort: CompareFunction<string> = (a: string, b: string) 
   return 0;
 };
 
-describe('MergeSort', () => {
+describe('mergeSort', () => {
   describe('mergeSort', () => {
     describe.each([
       [ascendingNumberSort, givenNumberArr, [1, 2, 5, 10, 40, 43, 46, 67]],
       [descendingNumberSort, givenNumberArr, [67, 46, 43, 40, 10, 5, 2, 1]],
-    ])('with number compare %p', (compareFunction, given, expected) => {
+    ])('call with number compare %p', (compareFunction, given, expected) => {
       it(`should return ${expected}`, () => {
         expect(mergeSort(given, compareFunction)).toStrictEqual(expected);
       });
     });
   });
+
   describe('mergeSort', () => {
     describe.each([
       [alphabeticalStringSort, givenStringArr, ['a', 'Array', 'B', 'Hard', 'Is', 'MergeSort', 'This']],
       [caseSensitiveStringSort, givenStringArr, ['Array', 'B', 'Hard', 'Is', 'MergeSort', 'This', 'a']],
-    ])('with string compare %p', (compareFunction, given, expected) => {
+    ])('call with string compare %p', (compareFunction, given, expected) => {
       it(`should return ${expected}`, () => {
         expect(mergeSort(given, compareFunction)).toStrictEqual(expected);
       });
+    });
+  });
+
+  describe('mergeArrays', () => {
+    it('should return array of merged and sorted numbers', () => {
+      expect(
+        mergeArrays([13, 15], [12, 14], ascendingNumberSort),
+      ).toStrictEqual([12, 13, 14, 15]);
     });
   });
 });
