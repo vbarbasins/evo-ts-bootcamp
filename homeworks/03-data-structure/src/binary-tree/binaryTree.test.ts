@@ -1,4 +1,7 @@
 import { BinaryTree, TraverseType } from './binaryTree';
+import { assertNever } from '../utils/commonUtils';
+
+jest.mock('../utils/commonUtils');
 
 /*             43
 *             /  \
@@ -36,11 +39,11 @@ describe('BinaryTree', () => {
   });
 
   describe('traverse', () => {
-    it('should throw an error with unexpected traverse type', () => {
+    it('should call assertNever from utils, when passed type is not handled', () => {
       const given = new BinaryTree({ value: 1, left: null, right: null });
-      expect(() => {
-        given.traverse('unexpected type' as TraverseType);
-      }).toThrow('Unexpected argument: unexpected type');
+      const mockAssertNever = assertNever as jest.MockedFunction<typeof assertNever>;
+      given.traverse('some type' as TraverseType);
+      expect(mockAssertNever).toHaveBeenCalled();
     });
 
     describe.each([

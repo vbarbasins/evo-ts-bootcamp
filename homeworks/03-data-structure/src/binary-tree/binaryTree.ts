@@ -1,3 +1,5 @@
+import { assertNever } from '../utils/commonUtils';
+
 export type TreeNode<T> = {
   value: T;
   left: TreeNode<T> | null;
@@ -43,10 +45,6 @@ export class BinaryTree<T> implements Tree<T> {
     const { value, left, right } = this.rootNode;
     const traverseLeft = left === null ? [] : new BinaryTree(left).traverse(type);
     const traverseRight = right === null ? [] : new BinaryTree(right).traverse(type);
-
-    function assertNever(arg: never): never {
-      throw new Error(`Unexpected argument: ${arg}`);
-    }
 
     switch (type) {
       case TraverseType.breadthFS: {
