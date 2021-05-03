@@ -13,7 +13,7 @@ export const BarSet: React.FC<BarSetProps> = ({ numbers, currentIndex }) => (
         height: `${number}px`,
         backgroundColor: index === currentIndex ? '#fddeb6' : '#faebd7',
       };
-      return <div className="Bar" style={style} key={`${index}`} />;
+      return <div className="Bar" style={style} key={index} />;
     })}
   </div>
 );

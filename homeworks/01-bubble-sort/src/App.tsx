@@ -3,13 +3,11 @@ import './App.css';
 
 import { BarSet } from './components/BarSet';
 
-import { createRandomNumberArray } from './utils/appUtils';
+import { createRandomNumberArray, makeSortingStep } from './utils/appUtils';
 
 const MAX_NUMBER = 100;
 const NUMBER_COUNT = 40;
 const SORT_TIMEOUT = 75;
-
-interface AppProps {}
 
 interface AppState {
   sorting: boolean,
@@ -21,23 +19,20 @@ interface AppState {
   solved: boolean,
 }
 
-class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props);
-    this.state = {
-      sorting: false,
-      sortingState: { iteration: 0, currentIndex: 0 },
-      numbers: createRandomNumberArray(MAX_NUMBER, NUMBER_COUNT),
-      solved: false,
-    };
-  }
+class App extends React.Component<{}, AppState> {
+  state = {
+    sorting: false,
+    sortingState: { iteration: 0, currentIndex: 0 },
+    numbers: createRandomNumberArray(MAX_NUMBER, NUMBER_COUNT),
+    solved: false,
+  };
 
   componentDidUpdate(): void {
     const { sorting } = this.state;
     if (sorting) setTimeout(this.sortNumbers, SORT_TIMEOUT);
   }
 
-  newSetHandler = (): void => {
+  private newSetHandler = (): void => {
     this.setState({
       sorting: false,
       sortingState: { iteration: 0, currentIndex: 0 },
@@ -46,30 +41,23 @@ class App extends React.Component<AppProps, AppState> {
     });
   }
 
-  progressHandler = (): void => {
+  private progressHandler = (): void => {
     this.setState(({ sorting }) => ({ sorting: !sorting }));
   }
 
-  sortNumbers = (): void => {
-    const { numbers, sortingState } = this.state;
+  private sortNumbers = (): void => {
+    const { numbers, sortingState, sorting } = this.state;
     const { iteration, currentIndex } = sortingState;
-    if (iteration < numbers.length) {
-      const newNumbers = [...numbers];
-      const nextIndex = currentIndex + 1;
-      if (numbers[currentIndex] > numbers[nextIndex]) {
-        const tmp = newNumbers[currentIndex];
-        newNumbers[currentIndex] = newNumbers[nextIndex];
-        newNumbers[nextIndex] = tmp;
-      }
-      this.setState(() => {
-        const continueIteration = nextIndex < numbers.length - iteration;
-        return {
-          numbers: newNumbers,
-          sortingState: {
-            iteration: continueIteration ? iteration : iteration + 1,
-            currentIndex: continueIteration ? nextIndex : 0,
-          },
-        };
+
+    if (!sorting) return;
+
+    const sortingStepResult = makeSortingStep(numbers, iteration, currentIndex);
+
+    if (sortingStepResult) {
+      const { newNumbers, nextSortingStep } = sortingStepResult;
+      this.setState({
+        numbers: newNumbers,
+        sortingState: nextSortingStep,
       });
     } else {
       this.setState({

@@ -46,7 +46,8 @@
         "@typescript-eslint/no-use-before-define": ["error"],
         "object-curly-newline": ["error", {
             "multiline": true
-        }]
+        }],
+        "react/state-in-constructor": "off"
     },
     "overrides": [
         {
