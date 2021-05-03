@@ -1,0 +1,11 @@
+.BarSet {
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.Bar {
+  border-radius: 4px;
+  border: 1px solid #c7b7a3;
+  width: 10px;
+}
