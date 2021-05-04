@@ -1,4 +1,4 @@
-import { Tree, BinaryTree, TraverseType } from './binaryTree';
+import { Tree, BinaryTree, TraverseType } from '../binary-tree/binaryTree';
 
 export interface SearchTree extends Tree<number> {
   has(value: number): boolean;

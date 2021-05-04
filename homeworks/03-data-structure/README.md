@@ -24,8 +24,9 @@ Launches the test runner with coverage report
 File                  | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
 ----------------------|---------|----------|---------|---------|-------------------
 All files             |     100 |      100 |     100 |     100 |                   
- binary-tree          |     100 |      100 |     100 |     100 |                   
+ binary-search-tree   |     100 |      100 |     100 |     100 |                   
   binarySearchTree.ts |     100 |      100 |     100 |     100 |                   
+ binary-tree          |     100 |      100 |     100 |     100 |                   
   binaryTree.ts       |     100 |      100 |     100 |     100 |                   
  merge-sort           |     100 |      100 |     100 |     100 |                   
   mergeSort.ts        |     100 |      100 |     100 |     100 |                   
