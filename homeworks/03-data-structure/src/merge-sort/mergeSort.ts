@@ -1,11 +1,7 @@
 export type CompareFunction<T> = (a: T, b: T) => number;
 
-export type MergeSort = <T>(arr: T[], compare: CompareFunction<T>) => T[];
-
-export type MergeArrays = <T>(aArr: T[], bArr: T[], compare: CompareFunction<T>) => T[];
-
-export const mergeArrays: MergeArrays = (leftArr, rightArr, compare) => {
-  const arr: typeof leftArr = [];
+export const mergeArrays = <T>(leftArr: T[], rightArr: T[], compare: CompareFunction<T>): T[] => {
+  const arr: T[] = [];
 
   while (leftArr.length && rightArr.length) {
     if (compare(leftArr[0], rightArr[0]) === -1) {
@@ -18,7 +14,7 @@ export const mergeArrays: MergeArrays = (leftArr, rightArr, compare) => {
   return [...arr, ...leftArr, ...rightArr];
 };
 
-export const mergeSort: MergeSort = (arr, compare) => {
+export const mergeSort = <T>(arr: T[], compare: CompareFunction<T>): T[] => {
   if (arr.length < 2) {
     return arr;
   }
