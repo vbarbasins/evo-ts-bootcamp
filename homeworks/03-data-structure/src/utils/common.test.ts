@@ -1,4 +1,4 @@
-import { assertNever } from './commonUtils';
+import { assertNever } from './common';
 
 describe('commonUtils', () => {
   describe('assertNever', () => {

@@ -1,4 +1,4 @@
-import { assertNever } from '../utils/commonUtils';
+import { assertNever } from '../utils/common';
 
 export type IBinaryTreeNode<T> = {
   value: T;

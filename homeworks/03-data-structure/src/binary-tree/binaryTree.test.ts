@@ -1,7 +1,7 @@
 import { BinaryTree, TraverseType } from './binaryTree';
-import { assertNever } from '../utils/commonUtils';
+import { assertNever } from '../utils/common';
 
-jest.mock('../utils/commonUtils');
+jest.mock('../utils/common');
 
 /*             43
 *             /  \
