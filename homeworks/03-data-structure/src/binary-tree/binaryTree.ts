@@ -1,9 +1,9 @@
 import { assertNever } from '../utils/commonUtils';
 
-export type TreeNode<T> = {
+export type IBinaryTreeNode<T> = {
   value: T;
-  left: TreeNode<T> | null;
-  right: TreeNode<T> | null;
+  left: IBinaryTreeNode<T> | null;
+  right: IBinaryTreeNode<T> | null;
 };
 
 export enum TraverseType {
@@ -13,20 +13,16 @@ export enum TraverseType {
   breadthFS = 'BFS',
 }
 
-export interface Tree<T> {
-  setTreeNode(treeNode: TreeNode<T>): this;
+export interface IBinaryTree<T> {
+  setTreeNode(treeNode: IBinaryTreeNode<T>): this;
   traverse(type: TraverseType): T[];
   getColumn(column: number): T[];
 }
 
-export class BinaryTree<T> implements Tree<T> {
-  protected rootNode: TreeNode<T>;
+export class BinaryTree<T> implements IBinaryTree<T> {
+  constructor(protected rootNode: IBinaryTreeNode<T>) {}
 
-  constructor(treeNode: TreeNode<T>) {
-    this.rootNode = treeNode;
-  }
-
-  public setTreeNode(treeNode: TreeNode<T>): this {
+  public setTreeNode(treeNode: IBinaryTreeNode<T>): this {
     this.rootNode = treeNode;
     return this;
   }
@@ -49,7 +45,7 @@ export class BinaryTree<T> implements Tree<T> {
     switch (type) {
       case TraverseType.breadthFS: {
         const result: T[] = [];
-        const queue: TreeNode<T>[] = [this.rootNode];
+        const queue: IBinaryTreeNode<T>[] = [this.rootNode];
         while (queue.length > 0) {
           const node = queue.shift()!;
           result.push(node.value);
