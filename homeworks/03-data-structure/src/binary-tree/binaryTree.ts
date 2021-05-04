@@ -7,10 +7,10 @@ export type IBinaryTreeNode<T> = {
 };
 
 export enum TraverseType {
-  depthFSInOrder = 'DFS_INORDER',
-  depthFSPreOrder = 'DFS_PREORDER',
-  depthFSPostOrder = 'DFS_POSTORDER',
-  breadthFS = 'BFS',
+  DFSInOrder = 'DFS_INORDER',
+  DFSPreOrder = 'DFS_PREORDER',
+  DFSPostOrder = 'DFS_POSTORDER',
+  BFS = 'BFS',
 }
 
 export interface IBinaryTree<T> {
@@ -43,7 +43,7 @@ export class BinaryTree<T> implements IBinaryTree<T> {
     const traverseRight = right === null ? [] : new BinaryTree(right).traverse(type);
 
     switch (type) {
-      case TraverseType.breadthFS: {
+      case TraverseType.BFS: {
         const result: T[] = [];
         const queue: IBinaryTreeNode<T>[] = [this.rootNode];
         while (queue.length > 0) {
@@ -54,9 +54,9 @@ export class BinaryTree<T> implements IBinaryTree<T> {
         }
         return result;
       }
-      case TraverseType.depthFSInOrder: return [...traverseLeft, value, ...traverseRight];
-      case TraverseType.depthFSPreOrder: return [value, ...traverseLeft, ...traverseRight];
-      case TraverseType.depthFSPostOrder: return [...traverseLeft, ...traverseRight, value];
+      case TraverseType.DFSInOrder: return [...traverseLeft, value, ...traverseRight];
+      case TraverseType.DFSPreOrder: return [value, ...traverseLeft, ...traverseRight];
+      case TraverseType.DFSPostOrder: return [...traverseLeft, ...traverseRight, value];
       default: return assertNever(type);
     }
   }
