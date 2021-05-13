@@ -1,7 +1,7 @@
 export { Cart } from './Cart';
 export { CartItem } from './CartItem';
 export { Circle } from './Circle';
-export { ItemCount } from './PizzaCount';
+export { ItemCount } from './ItemCount';
 export { ItemDescription } from './ItemDescription';
 export { ItemName } from './ItemName';
 export { ItemPrice } from './ItemPrice';

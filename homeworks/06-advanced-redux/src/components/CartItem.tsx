@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { Circle } from './Circle';
-import { ItemCount } from './PizzaCount';
+import { ItemCount } from './ItemCount';
 import { ItemDescription } from './ItemDescription';
 import { ItemName } from './ItemName';
 import { ItemPrice } from './ItemPrice';
