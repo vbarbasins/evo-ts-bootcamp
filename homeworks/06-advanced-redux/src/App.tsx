@@ -40,7 +40,7 @@ function App() {
   const shopCart = R.cond([
     [R.isEmpty, Missing],
     [R.T, (item) => Cart({
-      cartItem: item,
+      cartItems: item,
       onItemRemove: handleRemoveItemFromCart,
     })],
   ]);
