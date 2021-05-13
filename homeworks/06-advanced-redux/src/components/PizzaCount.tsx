@@ -1,11 +1,12 @@
-import React from "react";
-
-interface PizzaCountProps {
+interface ItemCountProps {
     count: number
 }
 
-export function PizzaCount({ count }: PizzaCountProps) {
-    return  (
-        <p><span className="text-yellow-400 mr-1">x</span>{count}</p>
-    );
+export function ItemCount({ count }: ItemCountProps) {
+  return (
+    <p>
+      <span className="text-yellow-400 mr-1">x</span>
+      {count}
+    </p>
+  );
 }
