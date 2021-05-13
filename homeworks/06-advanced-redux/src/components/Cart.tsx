@@ -2,10 +2,10 @@ import * as R from 'ramda';
 
 import { CartItem } from './CartItem';
 
-import { Pizza } from '../types';
+import { CartItem as CartItemType } from '../types';
 
 interface CartProps {
-    cartItems: Array<Pizza & {count: number}>,
+    cartItems: Array<CartItemType>,
     onItemRemove: (_id: string) => void;
 }
 
