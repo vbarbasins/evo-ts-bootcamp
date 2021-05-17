@@ -8,19 +8,23 @@ import { LogEvent, ShopState } from '../types';
 
 export const logger: Middleware<{}, ShopState> = ({ getState }) => (nextDispatch) => (
   (action: AnyAction) => {
-    let event: LogEvent;
+    let event: LogEvent = { eventName: action.type };
     switch (action.type) {
       case ShopActionType.ItemSelected:
       case ShopActionType.ItemAddedToCart:
       case ShopActionType.ItemRemovedFromCart: {
         const itemId = action.payload;
-        const { name, price } = getState().menu.filter((item) => item._id === itemId)[0];
-        event = { eventName: action.type, itemName: name, itemPrice: price };
+        const menuItem = getState().menu.find((item) => item._id === itemId);
+        if (menuItem) {
+          event = {
+            ...event,
+            itemName: menuItem.name,
+            itemPrice: menuItem.price,
+          };
+        }
         break;
       }
-      default: {
-        event = { eventName: action.type };
-      }
+      default: break;
     }
     sendLogs(event);
     return nextDispatch(action);

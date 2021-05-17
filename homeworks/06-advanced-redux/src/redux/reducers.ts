@@ -24,7 +24,7 @@ export function shopReducer(
     case ShopActionType.ItemAddedToCart: {
       const itemId = action.payload;
       let newCart: CartItem[] = [];
-      const selectedItemInCart = state.cart.filter((item) => item._id === itemId)[0];
+      const selectedItemInCart = state.cart.find((item) => item._id === itemId);
       if (selectedItemInCart) {
         const { count, ...itemInfo } = selectedItemInCart;
         newCart = [
@@ -32,8 +32,8 @@ export function shopReducer(
           { ...itemInfo, count: count + 1 },
         ];
       } else {
-        const menuItem = state.menu.filter((item) => item._id === itemId)[0];
-        newCart = [...state.cart, { ...menuItem, count: 1 }];
+        const menuItem = state.menu.find((item) => item._id === itemId);
+        if (menuItem) newCart = [...state.cart, { ...menuItem, count: 1 }];
       }
       const newState: ShopState = {
         ...state,
@@ -44,7 +44,7 @@ export function shopReducer(
     case ShopActionType.ItemRemovedFromCart: {
       const itemId = action.payload;
       let newCart: CartItem[] = [];
-      const selectedItemInCart = state.cart.filter((item) => item._id === itemId)[0];
+      const selectedItemInCart = state.cart.find((item) => item._id === itemId);
       if (selectedItemInCart) {
         const { count, ...itemInfo } = selectedItemInCart;
         newCart = [
