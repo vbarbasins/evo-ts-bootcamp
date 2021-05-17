@@ -15,7 +15,7 @@ import {
 import { addToCart, removeFromCart, selectItem } from './redux/actions/shop';
 import { loadMenuAsync } from './redux/actions/menu';
 
-import { Pizza, ShopState } from './types';
+import { ShopState } from './types';
 
 function App() {
   const menu = useSelector((state: ShopState) => state.menu);
@@ -51,10 +51,6 @@ function App() {
     })],
   ]);
 
-  const totalPrice = cart.reduce(
-    (acc, item: Pizza) => acc + item.price, 0,
-  );
-
   return (
     <div className="grid grid-cols-3 gap-4 h-full">
       <div className="col-span-2 p-8">
@@ -64,7 +60,7 @@ function App() {
       </div>
       <div className="col-span-1 bg-white overflow-y-auto h-full">
         <div className="flex flex-col p-8">
-          <TotalPrice price={totalPrice} />
+          <TotalPrice/>
           {shopCart(cart)}
           <div className="flex flex-col">
             <button className="bg-yellow-400 rounded-xl pt-2 pb-2">
