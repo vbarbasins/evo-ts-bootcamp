@@ -13,8 +13,7 @@ declare global {
 const middlewareEnhancer = applyMiddleware(...[thunk, logger]);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const shop = createStore(
+export const store = createStore(
   shopReducer,
-  undefined,
   composeEnhancers(middlewareEnhancer),
 );
