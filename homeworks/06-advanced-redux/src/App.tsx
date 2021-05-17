@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as R from 'ramda';
 
 import './App.css';
@@ -12,18 +12,14 @@ import {
   TotalPrice,
 } from './components';
 
-import { shop } from './redux/store';
 import { addToCart, removeFromCart, selectItem } from './redux/actions/shop';
 import { loadMenuAsync } from './redux/actions/menu';
 
 import { Pizza, ShopState } from './types';
 
-interface AppProps {
-  state: ShopState
-}
-
-function App(props: AppProps) {
-  const { menu, cart } = props.state;
+function App() {
+  const menu = useSelector((state: ShopState) => state.menu);
+  const cart = useSelector((state: ShopState) => state.cart);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,13 +27,13 @@ function App(props: AppProps) {
   }, []);
 
   const handleRemoveItemFromCart = useCallback((_id: string) => {
-    shop.dispatch(removeFromCart(_id));
-  }, [menu, cart]);
+    dispatch(removeFromCart(_id));
+  }, []);
 
   const handleAddItemToCart = useCallback((_id: string) => {
-    shop.dispatch(selectItem(_id));
-    shop.dispatch(addToCart(_id));
-  }, [menu, cart]);
+    dispatch(selectItem(_id));
+    dispatch(addToCart(_id));
+  }, []);
 
   const shopMenu = R.cond([
     [R.isEmpty, Loading],
@@ -80,8 +76,5 @@ function App(props: AppProps) {
     </div>
   );
 }
-const mapStateToProps = (state: ShopState) => ({ state });
 
-const AppConnected = connect(mapStateToProps, {})(App);
-
-export default AppConnected;
+export default App;
