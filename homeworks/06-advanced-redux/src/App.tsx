@@ -24,16 +24,16 @@ function App() {
 
   useEffect(() => {
     dispatch(loadMenuAsync());
-  }, []);
+  }, [dispatch]);
 
   const handleRemoveItemFromCart = useCallback((_id: string) => {
     dispatch(removeFromCart(_id));
-  }, []);
+  }, [dispatch]);
 
   const handleAddItemToCart = useCallback((_id: string) => {
     dispatch(selectItem(_id));
     dispatch(addToCart(_id));
-  }, []);
+  }, [dispatch]);
 
   const shopMenu = R.cond([
     [R.isEmpty, Loading],
