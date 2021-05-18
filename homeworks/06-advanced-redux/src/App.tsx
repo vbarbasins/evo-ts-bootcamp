@@ -1,9 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as R from 'ramda';
 
 import './App.css';
 
-import { useApp } from './hooks';
 import {
   Loading,
   Missing,
@@ -12,22 +12,28 @@ import {
   TotalPrice,
 } from './components';
 
+import { addToCart, removeFromCart, selectItem } from './redux/actions/shop';
+import { loadMenuAsync } from './redux/actions/menu';
+
+import { ShopState } from './types';
+
 function App() {
-  const {
-    addItemToCart,
-    cart,
-    menu,
-    removeItemFromCart,
-    totalPrice,
-  } = useApp();
+  const menu = useSelector((state: ShopState) => state.menu);
+  const cart = useSelector((state: ShopState) => state.cart);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadMenuAsync());
+  }, [dispatch]);
 
   const handleRemoveItemFromCart = useCallback((_id: string) => {
-    removeItemFromCart(_id);
-  }, [menu, cart]);
+    dispatch(removeFromCart(_id));
+  }, [dispatch]);
 
   const handleAddItemToCart = useCallback((_id: string) => {
-    addItemToCart(_id);
-  }, [menu, cart]);
+    dispatch(selectItem(_id));
+    dispatch(addToCart(_id));
+  }, [dispatch]);
 
   const shopMenu = R.cond([
     [R.isEmpty, Loading],
@@ -54,7 +60,7 @@ function App() {
       </div>
       <div className="col-span-1 bg-white overflow-y-auto h-full">
         <div className="flex flex-col p-8">
-          <TotalPrice price={totalPrice} />
+          <TotalPrice/>
           {shopCart(cart)}
           <div className="flex flex-col">
             <button className="bg-yellow-400 rounded-xl pt-2 pb-2">
