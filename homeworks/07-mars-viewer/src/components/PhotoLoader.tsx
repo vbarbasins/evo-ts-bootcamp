@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import styles from './SolSelectForm.module.css';
+import styles from './PhotoLoader.module.css';
 
 import {
   hideFavouritePhotos,
@@ -12,7 +12,7 @@ import {
 
 import { AppState } from '../types/common';
 
-export const SolSelectForm: React.FC = () => {
+export const PhotoLoader: React.FC = () => {
   const currentSol = useSelector((state: AppState) => state.currentSol);
   const showingFavourites = useSelector((state: AppState) => state.showingFavourites);
   const anyFavourite = useSelector((state: AppState) => {

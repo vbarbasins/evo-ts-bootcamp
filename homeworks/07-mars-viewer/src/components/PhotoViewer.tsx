@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import styles from './SolPhotos.module.css';
+import styles from './PhotoViewer.module.css';
 
 import { PhotoCard } from './PhotoCard';
 
 import { AppState, Photo } from '../types/common';
 
-export const SolPhotos: React.FC = () => {
+export const PhotoViewer: React.FC = () => {
   const loadingPhotos = useSelector((state: AppState) => state.loadingPhotos);
   const showingFavourites = useSelector((state: AppState) => state.showingFavourites);
   const loadedPhotos = useSelector((state: AppState) => state.photos);
