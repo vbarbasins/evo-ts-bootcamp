@@ -20,6 +20,11 @@ export const SolSelectForm: React.FC = () => {
     if (isFavorite) return true;
     return false;
   });
+  const anyLoaded = useSelector((state: AppState) => {
+    const isLoaded = state.photos.find((photo) => photo.sol === currentSol);
+    if (isLoaded) return true;
+    return false;
+  });
   const dispatch = useDispatch();
 
   const submitHandler = async (e: React.FormEvent) => {
@@ -64,9 +69,9 @@ export const SolSelectForm: React.FC = () => {
         <button
           type="submit"
           className={styles.button}
-          disabled={showingFavourites}
+          disabled={showingFavourites || anyLoaded}
         >
-          Load
+          {anyLoaded ? 'Loaded' : 'Load'}
         </button>
       </form>
     </div>
