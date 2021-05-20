@@ -1,7 +1,10 @@
 import { applyMiddleware, compose, createStore } from 'redux';
+import { enableMapSet } from 'immer';
 import thunk from 'redux-thunk';
 
 import { appReducer } from './reducers';
+
+enableMapSet();
 
 declare global {
   interface Window {

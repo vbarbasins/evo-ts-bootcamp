@@ -7,7 +7,7 @@ export enum AppActionType {
   PhotosLoaded = 'PHOTOS_LOADED',
   SolSelected = 'SOL_SELECTED',
   PhotoAddedToFavourites = 'PHOTO_ADDED_TO_FAVOURITES',
-  PhotoRemovedFromFavourites = 'PHOTO_REMOVED_TO_FAVOURITES',
+  PhotoRemovedFromFavourites = 'PHOTO_REMOVED_FROM_FAVOURITES',
 }
 
 export type AppAction = { type: AppActionType; payload?: any }

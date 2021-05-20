@@ -1,3 +1,5 @@
+import { produce } from 'immer';
+
 import { AppAction, AppActionType } from './actions';
 
 import {
@@ -51,36 +53,16 @@ export function appReducer(
       };
       return newState;
     }
-    case AppActionType.PhotoAddedToFavourites: {
-      const currentPhoto = state.photos.find((photo) => photo.id === action.payload);
-      if (currentPhoto) {
-        currentPhoto.favourite = true;
-        const newState: AppState = {
-          ...state,
-          photos: [
-            ...state.photos,
-            currentPhoto,
-          ],
-        };
-        return newState;
-      }
-      return state;
-    }
-    case AppActionType.PhotoRemovedFromFavourites: {
-      const currentPhoto = state.photos.find((photo) => photo.id === action.payload);
-      if (currentPhoto) {
-        currentPhoto.favourite = false;
-        const newState: AppState = {
-          ...state,
-          photos: [
-            ...state.photos,
-            currentPhoto,
-          ],
-        };
-        return newState;
-      }
-      return state;
-    }
+    case AppActionType.PhotoAddedToFavourites:
+      return produce(state, (draftState) => {
+        const photoToUpdate = draftState.photos.find((photo) => photo.id === action.payload);
+        if (photoToUpdate) photoToUpdate.favourite = true;
+      });
+    case AppActionType.PhotoRemovedFromFavourites:
+      return produce(state, (draftState) => {
+        const photoToUpdate = draftState.photos.find((photo) => photo.id === action.payload);
+        if (photoToUpdate) photoToUpdate.favourite = false;
+      });
     default:
       return state;
   }

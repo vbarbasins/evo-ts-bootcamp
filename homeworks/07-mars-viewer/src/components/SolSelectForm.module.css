@@ -20,6 +20,11 @@
   font-size: 1.4rem;
   cursor: pointer;
   transition: background-color 250ms;
+  margin-bottom: 1rem;
+}
+
+button:disabled {
+  opacity: 0.3;
 }
 
 .button:hover {
@@ -28,11 +33,8 @@
 
 @media (min-width: 768px) {
   .form {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 2fr auto 1fr;
     grid-gap: 1rem;
     align-items: center;
-  }
-  .input {
-    margin-bottom: 0;
   }
 }
