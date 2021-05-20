@@ -14,15 +14,16 @@ export const SearchForm: React.FC<SearchFormProps> = ({
 }) => (
   <form className={styles.form} onSubmit={submitHandler}>
     <input
-      type="text"
-      name="query"
+      type="number"
+      name="sol"
       className={styles.input}
-      placeholder={'Try "dog" or "apple"'}
+      placeholder={'Select the sol'}
       value={inputValue}
       onChange={(e) => inputHandler(e.target.value)}
+      min="1"
     />
     <button type="submit" className={styles.button}>
-      Search
+      Load
     </button>
   </form>
 );

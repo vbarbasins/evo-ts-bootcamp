@@ -8,21 +8,24 @@ interface PhotoProps {
   photo: Photo
 }
 
+const photoWidth = 500;
+const photoHeight = 400;
+
 export const PhotoCard: React.FC<PhotoProps> = ({ photo }) => (
   <div
     className={styles.card}
     style={{
-      width: `${(photo.width * 200) / photo.height}px`,
-      flexGrow: (photo.width * 200) / photo.height,
+      width: `${(photoWidth * 200) / photoHeight}px`,
+      flexGrow: (photoWidth * 200) / photoHeight,
     }}
   >
     <div style={{
-      paddingBottom: `${(photo.height / photo.width) * 100}%`,
+      paddingBottom: `${(photoHeight / photoWidth) * 100}%`,
     }} />
     <img
       className={styles.cardImage}
-      alt={photo.alt_description}
-      src={photo.urls.small}
+      alt={`${photo.id}`}
+      src={photo.img_src}
     ></img>
   </div>
 );
