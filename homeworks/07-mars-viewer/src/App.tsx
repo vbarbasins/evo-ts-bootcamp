@@ -1,10 +1,15 @@
 import React from 'react';
-import './App.css';
+import styles from './App.module.css';
 
-import { SearchPhotos } from './components/SearchPhotos';
+import { SolSelectForm } from './components/SolSelectForm';
+import { SolPhotos } from './components/SolPhotos';
 
 export const App: React.FC = () => (
   <div className="App">
-    <SearchPhotos />
+    <div className={styles.container}>
+      <h1 className={styles.title}>Select Sol and press "load"!</h1>
+      <SolSelectForm />
+      <SolPhotos />
+    </div>
   </div>
 );

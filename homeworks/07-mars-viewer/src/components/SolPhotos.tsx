@@ -1,29 +1,29 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import styles from './SearchPhotos.module.css';
+import styles from './SolPhotos.module.css';
 
 import { PhotoCard } from './PhotoCard';
-import { SolSelectForm } from './SolSelectForm';
 
 import { AppState } from '../types/common';
 
-export const SearchPhotos: React.FC = () => {
+export const SolPhotos: React.FC = () => {
+  let content = <div className={styles.text}>Photos are not loaded</div>;
   const photos = useSelector((state: AppState) => {
     const currentSPS = state.solPhotoSets.find((set) => set.sol === state.currentSol);
     if (currentSPS) return currentSPS.photoSet;
     return undefined;
   });
 
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Select Sol and press "load"!</h1>
-      <SolSelectForm />
+  if (photos) {
+    content = (
       <div className={styles.cardList}>
         {photos && photos.map((photo) => (
           <PhotoCard photo={photo} key={photo.id}/>
         ))}
       </div>
-    </div>
-  );
+    );
+  }
+
+  return content;
 };
