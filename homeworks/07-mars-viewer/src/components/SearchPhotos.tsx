@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './SearchPhotos.module.css';
-
-import { client, getPhotos } from '../api/client';
 
 import { PhotoCard } from './PhotoCard';
 import { SearchForm } from './SearchForm';
 
-import { Photo } from '../types/common';
+import { loadPhotosAsync } from '../redux/actions';
+
+import { AppState } from '../types/common';
 
 export const SearchPhotos: React.FC = () => {
   const [query, setQuery] = useState('');
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const photos = useSelector((state: AppState) => state.currentSearch);
+  const dispatch = useDispatch();
 
   const searchPhotos = async (e: React.FormEvent) => {
     e.preventDefault();
-    client
-      .query(getPhotos)
-      .then((result) => setPhotos(result.payload?.photos as unknown as Photo[]))
-      .catch((error) => console.warn(error));
+    dispatch((loadPhotosAsync()));
   };
 
   return (
