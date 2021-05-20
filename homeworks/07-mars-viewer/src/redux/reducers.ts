@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { produce } from 'immer';
 
 import { AppAction, AppActionType } from './actions';
@@ -5,7 +6,6 @@ import { AppAction, AppActionType } from './actions';
 import {
   AppState,
   NasaPhoto,
-  Photo,
 } from '../types/common';
 
 const initialState: AppState = {
@@ -27,26 +27,18 @@ export function appReducer(
       };
       return newState;
     }
-    case AppActionType.PhotosLoaded: {
-      const loadedPhotos: NasaPhoto[] = action.payload;
-      const adjustedPhotos: Photo[] = [];
-      loadedPhotos.forEach((photo) => {
-        adjustedPhotos.push({
-          ...photo,
-          favourite: false,
-          sol: state.currentSol,
+    case AppActionType.PhotosLoaded:
+      return produce(state, (draftState) => {
+        const loadedPhotos: NasaPhoto[] = action.payload;
+        loadedPhotos.forEach((photo) => {
+          draftState.photos.push({
+            ...photo,
+            favourite: false,
+            sol: state.currentSol,
+          });
         });
+        draftState.loadingPhotos = false;
       });
-      const newState: AppState = {
-        ...state,
-        photos: [
-          ...state.photos,
-          ...adjustedPhotos,
-        ],
-        loadingPhotos: false,
-      };
-      return newState;
-    }
     case AppActionType.SolSelected: {
       const newState: AppState = {
         ...state,
@@ -64,7 +56,6 @@ export function appReducer(
         const photoToUpdate = draftState.photos.find((photo) => photo.id === action.payload);
         if (photoToUpdate) photoToUpdate.favourite = false;
         const anyFavourites = draftState.photos.find((photo) => photo.favourite === true);
-        // eslint-disable-next-line no-param-reassign
         if (!anyFavourites) draftState.showingFavourites = false;
       });
     case AppActionType.FavouritePhotosShown: {
