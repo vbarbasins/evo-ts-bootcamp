@@ -10,4 +10,5 @@ export type AppState = {
   favourites: Photo[];
   currentSol: number;
   solPhotoSets: SolPhotoSet[];
+  loadingPhotos: boolean;
 }

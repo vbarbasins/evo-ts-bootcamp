@@ -6,6 +6,7 @@ const initialState: AppState = {
   favourites: [],
   currentSol: 1,
   solPhotoSets: [],
+  loadingPhotos: false,
 };
 
 export function appReducer(
@@ -13,6 +14,13 @@ export function appReducer(
   action: AppAction,
 ): AppState {
   switch (action.type) {
+    case AppActionType.PhotoLoadStarted: {
+      const newState: AppState = {
+        ...state,
+        loadingPhotos: true,
+      };
+      return newState;
+    }
     case AppActionType.PhotosLoaded: {
       const loadedPhotos: Photo[] = action.payload;
       const newSPS: SolPhotoSet = {
@@ -25,6 +33,7 @@ export function appReducer(
           ...state.solPhotoSets,
           newSPS,
         ],
+        loadingPhotos: false,
       };
       return newState;
     }
