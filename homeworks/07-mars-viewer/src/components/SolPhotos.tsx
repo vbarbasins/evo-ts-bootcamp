@@ -11,8 +11,8 @@ export const SolPhotos: React.FC = () => {
   let content = <div className={styles.text}>Photos are not loaded</div>;
   const loadingPhotos = useSelector((state: AppState) => state.loadingPhotos);
   const photos = useSelector((state: AppState) => {
-    const currentSPS = state.solPhotoSets.find((set) => set.sol === state.currentSol);
-    if (currentSPS) return currentSPS.photoSet;
+    const currentPhotos = state.photos.filter((photo) => photo.sol === state.currentSol);
+    if (currentPhotos.length > 0) return currentPhotos;
     return undefined;
   });
 

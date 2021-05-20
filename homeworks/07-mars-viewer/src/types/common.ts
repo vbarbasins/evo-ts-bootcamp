@@ -1,14 +1,16 @@
-export type Photo = {
+export type NasaPhoto = {
   id: number;
   // eslint-disable-next-line camelcase
   img_src: string;
+}
+
+export type Photo = NasaPhoto & {
+  favourite: boolean;
+  sol: number;
 };
 
-export type SolPhotoSet = { photoSet: Photo[], sol: number };
-
 export type AppState = {
-  favourites: Photo[];
   currentSol: number;
-  solPhotoSets: SolPhotoSet[];
+  photos: Photo[];
   loadingPhotos: boolean;
 }

@@ -1,11 +1,14 @@
 import { AppAction, AppActionType } from './actions';
 
-import { AppState, Photo, SolPhotoSet } from '../types/common';
+import {
+  AppState,
+  NasaPhoto,
+  Photo,
+} from '../types/common';
 
 const initialState: AppState = {
-  favourites: [],
   currentSol: 1,
-  solPhotoSets: [],
+  photos: [],
   loadingPhotos: false,
 };
 
@@ -22,16 +25,20 @@ export function appReducer(
       return newState;
     }
     case AppActionType.PhotosLoaded: {
-      const loadedPhotos: Photo[] = action.payload;
-      const newSPS: SolPhotoSet = {
-        photoSet: loadedPhotos,
-        sol: state.currentSol,
-      };
+      const loadedPhotos: NasaPhoto[] = action.payload;
+      const adjustedPhotos: Photo[] = [];
+      loadedPhotos.forEach((photo) => {
+        adjustedPhotos.push({
+          ...photo,
+          favourite: false,
+          sol: state.currentSol,
+        });
+      });
       const newState: AppState = {
         ...state,
-        solPhotoSets: [
-          ...state.solPhotoSets,
-          newSPS,
+        photos: [
+          ...state.photos,
+          ...adjustedPhotos,
         ],
         loadingPhotos: false,
       };
@@ -43,6 +50,36 @@ export function appReducer(
         currentSol: action.payload,
       };
       return newState;
+    }
+    case AppActionType.PhotoAddedToFavourites: {
+      const currentPhoto = state.photos.find((photo) => photo.id === action.payload);
+      if (currentPhoto) {
+        currentPhoto.favourite = true;
+        const newState: AppState = {
+          ...state,
+          photos: [
+            ...state.photos,
+            currentPhoto,
+          ],
+        };
+        return newState;
+      }
+      return state;
+    }
+    case AppActionType.PhotoRemovedFromFavourites: {
+      const currentPhoto = state.photos.find((photo) => photo.id === action.payload);
+      if (currentPhoto) {
+        currentPhoto.favourite = false;
+        const newState: AppState = {
+          ...state,
+          photos: [
+            ...state.photos,
+            currentPhoto,
+          ],
+        };
+        return newState;
+      }
+      return state;
     }
     default:
       return state;
