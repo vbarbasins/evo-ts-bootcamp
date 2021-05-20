@@ -13,7 +13,7 @@ export const SolSelectForm: React.FC = () => {
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loadPhotosAsync());
+    dispatch(loadPhotosAsync(currentSol));
   };
 
   const inputHandler = (input: string) => {
