@@ -4,7 +4,10 @@ export type Photo = {
   img_src: string;
 };
 
+export type SolPhotoSet = { photoSet: Photo[], sol: number };
+
 export type AppState = {
-  currentSearch: Photo[];
   favourites: Photo[];
+  currentSol: number;
+  solPhotoSets: SolPhotoSet[];
 }

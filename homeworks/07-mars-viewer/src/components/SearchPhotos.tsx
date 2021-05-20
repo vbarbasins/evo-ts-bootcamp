@@ -1,33 +1,24 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import styles from './SearchPhotos.module.css';
 
 import { PhotoCard } from './PhotoCard';
-import { SearchForm } from './SearchForm';
-
-import { loadPhotosAsync } from '../redux/actions';
+import { SolSelectForm } from './SolSelectForm';
 
 import { AppState } from '../types/common';
 
 export const SearchPhotos: React.FC = () => {
-  const [query, setQuery] = useState('');
-  const photos = useSelector((state: AppState) => state.currentSearch);
-  const dispatch = useDispatch();
-
-  const searchPhotos = async (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch((loadPhotosAsync()));
-  };
+  const photos = useSelector((state: AppState) => {
+    const currentSPS = state.solPhotoSets.find((set) => set.sol === state.currentSol);
+    if (currentSPS) return currentSPS.photoSet;
+    return undefined;
+  });
 
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Select Sol and press "load"!</h1>
-      <SearchForm
-        submitHandler={searchPhotos}
-        inputHandler={setQuery}
-        inputValue={query}
-      />
+      <SolSelectForm />
       <div className={styles.cardList}>
         {photos && photos.map((photo) => (
           <PhotoCard photo={photo} key={photo.id}/>

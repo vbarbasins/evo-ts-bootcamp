@@ -1,8 +1,12 @@
 import { AppAction, AppActionType } from './actions';
 
-import { AppState } from '../types/common';
+import { AppState, Photo, SolPhotoSet } from '../types/common';
 
-const initialState: AppState = { currentSearch: [], favourites: [] };
+const initialState: AppState = {
+  favourites: [],
+  currentSol: 1,
+  solPhotoSets: [],
+};
 
 export function appReducer(
   state = initialState,
@@ -10,10 +14,24 @@ export function appReducer(
 ): AppState {
   switch (action.type) {
     case AppActionType.PhotosLoaded: {
-      const loadedPhotos = action.payload;
+      const loadedPhotos: Photo[] = action.payload;
+      const newSPS: SolPhotoSet = {
+        photoSet: loadedPhotos,
+        sol: state.currentSol,
+      };
       const newState: AppState = {
         ...state,
-        currentSearch: [...loadedPhotos],
+        solPhotoSets: [
+          ...state.solPhotoSets,
+          newSPS,
+        ],
+      };
+      return newState;
+    }
+    case AppActionType.SolSelected: {
+      const newState: AppState = {
+        ...state,
+        currentSol: action.payload,
       };
       return newState;
     }
