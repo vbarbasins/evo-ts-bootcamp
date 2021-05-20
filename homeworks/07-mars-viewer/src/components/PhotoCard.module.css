@@ -1,0 +1,11 @@
+.card {
+  margin: 2px;
+  position: relative;
+}
+
+.cardImage {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  vertical-align: bottom;
+}
