@@ -71,7 +71,7 @@ export const PhotoLoader: React.FC = () => {
           className={styles.button}
           disabled={showingFavourites || anyLoaded}
         >
-          {anyLoaded ? 'Loaded' : 'Load'}
+          {anyLoaded ? 'Done for this sol' : 'Load'}
         </button>
       </form>
     </div>

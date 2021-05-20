@@ -1,10 +1,13 @@
-# Homework 02-css-instruments
+# Homework 07-mars-viewer
 
-Project showing photo search results using CSS Flex layout
+This app is designed to collect favourite images gathered by NASA's Perseverance rover.
 
-For development used:\
-* https://www.digitalocean.com/community/tutorials/how-to-build-a-photo-search-app-with-react-using-the-unsplash-api
-* https://stackblitz.com/edit/unsplash-js-typescript?file=index.tsx
+Simple workflow:
+- choose any day on Mars (aka sol)
+- press 'Load' to use Nasa API to load photos
+- add any you like to favourites
+- press 'Favourites' to see what you have collect
+
 
 ## Available Scripts
 
@@ -27,4 +30,4 @@ The build is minified and the filenames include the hashes.
 
 ## Published project
 
-http://vb-css-instruments.surge.sh/
+http://vb-mars-viewer.surge.sh/
