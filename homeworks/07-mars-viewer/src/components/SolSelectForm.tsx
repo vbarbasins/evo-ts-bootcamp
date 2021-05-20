@@ -3,12 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './SolSelectForm.module.css';
 
-import { loadPhotosAsync, selectCurrentSol } from '../redux/actions';
+import {
+  hideFavouritePhotos,
+  loadPhotosAsync,
+  selectCurrentSol,
+  showFavouritePhotos,
+} from '../redux/actions';
 
 import { AppState } from '../types/common';
 
 export const SolSelectForm: React.FC = () => {
   const currentSol = useSelector((state: AppState) => state.currentSol);
+  const showingFavourites = useSelector((state: AppState) => state.showingFavourites);
   const anyFavourite = useSelector((state: AppState) => {
     const isFavorite = state.photos.find((photo) => photo.favourite === true);
     if (isFavorite) return true;
@@ -22,7 +28,11 @@ export const SolSelectForm: React.FC = () => {
   };
 
   const favouriteButtonHandler = () => {
-    console.log('will show favorites');
+    if (showingFavourites) {
+      dispatch(hideFavouritePhotos());
+    } else {
+      dispatch(showFavouritePhotos());
+    }
   };
 
   const inputHandler = (input: string) => {
@@ -39,7 +49,7 @@ export const SolSelectForm: React.FC = () => {
           disabled={!anyFavourite}
           onClick={favouriteButtonHandler}
         >
-          Favourites
+          {`${showingFavourites ? 'Hide' : 'Show'} favourites`}
         </button>
         <input
           type="number"
@@ -49,8 +59,13 @@ export const SolSelectForm: React.FC = () => {
           value={currentSol}
           onChange={(e) => inputHandler(e.target.value)}
           min="1"
+          disabled={showingFavourites}
         />
-        <button type="submit" className={styles.button}>
+        <button
+          type="submit"
+          className={styles.button}
+          disabled={showingFavourites}
+        >
           Load
         </button>
       </form>

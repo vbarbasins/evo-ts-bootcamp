@@ -12,6 +12,7 @@ const initialState: AppState = {
   currentSol: 1,
   photos: [],
   loadingPhotos: false,
+  showingFavourites: false,
 };
 
 export function appReducer(
@@ -62,7 +63,24 @@ export function appReducer(
       return produce(state, (draftState) => {
         const photoToUpdate = draftState.photos.find((photo) => photo.id === action.payload);
         if (photoToUpdate) photoToUpdate.favourite = false;
+        const anyFavourites = draftState.photos.find((photo) => photo.favourite === true);
+        // eslint-disable-next-line no-param-reassign
+        if (!anyFavourites) draftState.showingFavourites = false;
       });
+    case AppActionType.FavouritePhotosShown: {
+      const newState: AppState = {
+        ...state,
+        showingFavourites: true,
+      };
+      return newState;
+    }
+    case AppActionType.FavouritePhotosHidden: {
+      const newState: AppState = {
+        ...state,
+        showingFavourites: false,
+      };
+      return newState;
+    }
     default:
       return state;
   }

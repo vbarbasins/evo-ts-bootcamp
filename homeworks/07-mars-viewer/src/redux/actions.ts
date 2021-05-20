@@ -8,6 +8,8 @@ export enum AppActionType {
   SolSelected = 'SOL_SELECTED',
   PhotoAddedToFavourites = 'PHOTO_ADDED_TO_FAVOURITES',
   PhotoRemovedFromFavourites = 'PHOTO_REMOVED_FROM_FAVOURITES',
+  FavouritePhotosShown = 'FAVOURITE_PHOTOS_SHOWN',
+  FavouritePhotosHidden = 'FAVOURITE_PHOTOS_HIDDEN',
 }
 
 export type AppAction = { type: AppActionType; payload?: any }
@@ -43,4 +45,12 @@ export const addPhotoToFavourites = (payload: number): AppAction => (
 
 export const removePhotoFromFavourites = (payload: number): AppAction => (
   { type: AppActionType.PhotoRemovedFromFavourites, payload }
+);
+
+export const showFavouritePhotos = (): AppAction => (
+  { type: AppActionType.FavouritePhotosShown }
+);
+
+export const hideFavouritePhotos = (): AppAction => (
+  { type: AppActionType.FavouritePhotosHidden }
 );
