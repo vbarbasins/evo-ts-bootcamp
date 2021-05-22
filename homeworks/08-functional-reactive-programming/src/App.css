@@ -2,3 +2,20 @@
   margin: 0;
   padding: 0;
 }
+
+html {
+  --cell-width: 50px;
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--cell-width);
+  border: 1px solid lightgrey;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, var(--cell-width));
+}
