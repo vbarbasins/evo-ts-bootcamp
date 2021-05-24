@@ -1,6 +1,6 @@
 # Homework 08-functional-reactive-programming
 
-`description to be added`
+`this is shame project :D`
 
 ## Available Scripts
 
@@ -23,4 +23,4 @@ The build is minified and the filenames include the hashes.
 
 ## Published project
 
-`link to be added`
+`vb-frp.surge.sh`

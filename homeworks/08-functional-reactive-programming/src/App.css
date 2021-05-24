@@ -6,8 +6,3 @@
 html {
   --cell-width: 50px;
 }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(10, var(--cell-width));
-}

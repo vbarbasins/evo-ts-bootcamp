@@ -1,7 +1,7 @@
 import { GRID_CELL_COUNT, INITIAL_WINDOWS } from './consts';
 import { Cell, CellContent } from './types';
 
-export const generateCells = (): Cell[] => {
+export const generateGrid = (): Cell[] => {
   const cells: Cell[] = [];
   for (let i = 0; i < GRID_CELL_COUNT; i += 1) {
     cells.push({
@@ -12,6 +12,6 @@ export const generateCells = (): Cell[] => {
   return cells;
 };
 
-export const randomiseCat = (): number => (
+export const getRandomTarget = (): number => (
   INITIAL_WINDOWS[Math.floor(Math.random() * INITIAL_WINDOWS.length)]
 );
