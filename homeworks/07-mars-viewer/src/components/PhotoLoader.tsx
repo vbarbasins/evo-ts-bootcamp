@@ -1,7 +1,8 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './PhotoLoader.module.css';
+
+import { useAppDispatch, useAppSelector } from '../hooks';
 
 import {
   hideFavouritePhotos,
@@ -13,19 +14,19 @@ import {
 import { AppState } from '../types/common';
 
 export const PhotoLoader: React.FC = () => {
-  const currentSol = useSelector((state: AppState) => state.currentSol);
-  const showingFavourites = useSelector((state: AppState) => state.showingFavourites);
-  const anyFavourite = useSelector((state: AppState) => {
+  const currentSol = useAppSelector((state: AppState) => state.currentSol);
+  const showingFavourites = useAppSelector((state: AppState) => state.showingFavourites);
+  const anyFavourite = useAppSelector((state: AppState) => {
     const isFavorite = state.photos.find((photo) => photo.favourite === true);
     if (isFavorite) return true;
     return false;
   });
-  const anyLoaded = useSelector((state: AppState) => {
+  const anyLoaded = useAppSelector((state: AppState) => {
     const isLoaded = state.photos.find((photo) => photo.sol === currentSol);
     if (isLoaded) return true;
     return false;
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();

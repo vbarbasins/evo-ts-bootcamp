@@ -1,7 +1,7 @@
-import { createAction } from '@reduxjs/toolkit';
+import { AnyAction, createAction } from '@reduxjs/toolkit';
 import { ThunkAction } from 'redux-thunk';
 
-import { NasaPhoto } from '../types/common';
+import { AppState, NasaPhoto } from '../types/common';
 
 export const startPhotoLoad = createAction('PHOTO_LOAD_STARTED');
 export const loadPhotos = createAction<NasaPhoto[]>('PHOTOS_LOADED');
@@ -11,7 +11,9 @@ export const removePhotoFromFavourites = createAction<number>('PHOTO_REMOVED_FRO
 export const showFavouritePhotos = createAction('FAVOURITE_PHOTOS_SHOWN');
 export const hideFavouritePhotos = createAction('FAVOURITE_PHOTOS_HIDDEN');
 
-export const loadPhotosAsync = (sol: number): ThunkAction<Promise<void>, [], {}, any> => (
+export const loadPhotosAsync = (
+  sol: number,
+): ThunkAction<Promise<void>, AppState, null, AnyAction> => (
   (dispatch) => new Promise((res) => {
     dispatch(startPhotoLoad());
     fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/perseverance/photos?sol=${sol}&api_key=${process.env.REACT_APP_API_KEY}`)

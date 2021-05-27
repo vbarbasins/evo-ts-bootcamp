@@ -1,7 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
 import styles from './PhotoCard.module.css';
+
+import { useAppDispatch } from '../hooks';
 
 import { addPhotoToFavourites, removePhotoFromFavourites } from '../redux/actions';
 
@@ -15,7 +16,7 @@ const photoWidth = 500;
 const photoHeight = 400;
 
 export const PhotoCard: React.FC<PhotoProps> = ({ photo }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const clickHandler = () => {
     if (photo.favourite) {
       dispatch(removePhotoFromFavourites(photo.id));

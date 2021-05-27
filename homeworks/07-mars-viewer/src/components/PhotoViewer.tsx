@@ -1,17 +1,18 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
 import styles from './PhotoViewer.module.css';
+
+import { useAppSelector } from '../hooks';
 
 import { PhotoCard } from './PhotoCard';
 
 import { AppState, Photo } from '../types/common';
 
 export const PhotoViewer: React.FC = () => {
-  const loadingPhotos = useSelector((state: AppState) => state.loadingPhotos);
-  const showingFavourites = useSelector((state: AppState) => state.showingFavourites);
-  const loadedPhotos = useSelector((state: AppState) => state.photos);
-  const currentSol = useSelector((state: AppState) => state.currentSol);
+  const loadingPhotos = useAppSelector((state: AppState) => state.loadingPhotos);
+  const showingFavourites = useAppSelector((state: AppState) => state.showingFavourites);
+  const loadedPhotos = useAppSelector((state: AppState) => state.photos);
+  const currentSol = useAppSelector((state: AppState) => state.currentSol);
 
   let content = <div className={styles.text}>
     {loadingPhotos ? 'Loading...' : 'Photos are not loaded'}
