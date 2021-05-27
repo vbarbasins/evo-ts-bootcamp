@@ -1,7 +1,15 @@
 /* eslint-disable no-param-reassign */
-import { produce } from 'immer';
+import { createReducer } from '@reduxjs/toolkit';
 
-import { AppAction, AppActionType } from './actions';
+import {
+  addPhotoToFavourites,
+  hideFavouritePhotos,
+  loadPhotos,
+  removePhotoFromFavourites,
+  selectCurrentSol,
+  showFavouritePhotos,
+  startPhotoLoad,
+} from './actions';
 
 import {
   AppState,
@@ -15,64 +23,39 @@ const initialState: AppState = {
   showingFavourites: false,
 };
 
-export function appReducer(
-  state = initialState,
-  action: AppAction,
-): AppState {
-  switch (action.type) {
-    case AppActionType.PhotoLoadStarted: {
-      const newState: AppState = {
-        ...state,
-        loadingPhotos: true,
-      };
-      return newState;
-    }
-    case AppActionType.PhotosLoaded:
-      return produce(state, (draftState) => {
-        const loadedPhotos: NasaPhoto[] = action.payload;
-        loadedPhotos.forEach((photo) => {
-          draftState.photos.push({
-            ...photo,
-            favourite: false,
-            sol: state.currentSol,
-          });
+export const appReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(startPhotoLoad, (state) => {
+      state.loadingPhotos = true;
+    })
+    .addCase(loadPhotos, (state, action) => {
+      const loadedPhotos: NasaPhoto[] = action.payload;
+      loadedPhotos.forEach((photo) => {
+        state.photos.push({
+          ...photo,
+          favourite: false,
+          sol: state.currentSol,
         });
-        draftState.loadingPhotos = false;
       });
-    case AppActionType.SolSelected: {
-      const newState: AppState = {
-        ...state,
-        currentSol: action.payload,
-      };
-      return newState;
-    }
-    case AppActionType.PhotoAddedToFavourites:
-      return produce(state, (draftState) => {
-        const photoToUpdate = draftState.photos.find((photo) => photo.id === action.payload);
-        if (photoToUpdate) photoToUpdate.favourite = true;
-      });
-    case AppActionType.PhotoRemovedFromFavourites:
-      return produce(state, (draftState) => {
-        const photoToUpdate = draftState.photos.find((photo) => photo.id === action.payload);
-        if (photoToUpdate) photoToUpdate.favourite = false;
-        const anyFavourites = draftState.photos.find((photo) => photo.favourite === true);
-        if (!anyFavourites) draftState.showingFavourites = false;
-      });
-    case AppActionType.FavouritePhotosShown: {
-      const newState: AppState = {
-        ...state,
-        showingFavourites: true,
-      };
-      return newState;
-    }
-    case AppActionType.FavouritePhotosHidden: {
-      const newState: AppState = {
-        ...state,
-        showingFavourites: false,
-      };
-      return newState;
-    }
-    default:
-      return state;
-  }
-}
+      state.loadingPhotos = false;
+    })
+    .addCase(selectCurrentSol, (state, action) => {
+      state.currentSol = action.payload;
+    })
+    .addCase(addPhotoToFavourites, (state, action) => {
+      const photoToUpdate = state.photos.find((photo) => photo.id === action.payload);
+      if (photoToUpdate) photoToUpdate.favourite = true;
+    })
+    .addCase(removePhotoFromFavourites, (state, action) => {
+      const photoToUpdate = state.photos.find((photo) => photo.id === action.payload);
+      if (photoToUpdate) photoToUpdate.favourite = false;
+      const anyFavourites = state.photos.find((photo) => photo.favourite === true);
+      if (!anyFavourites) state.showingFavourites = false;
+    })
+    .addCase(showFavouritePhotos, (state) => {
+      state.showingFavourites = true;
+    })
+    .addCase(hideFavouritePhotos, (state) => {
+      state.showingFavourites = false;
+    });
+});
