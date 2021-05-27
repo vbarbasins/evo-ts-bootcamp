@@ -14,7 +14,7 @@ export const hideFavouritePhotos = createAction('FAVOURITE_PHOTOS_HIDDEN');
 export const loadPhotosAsync = (sol: number): ThunkAction<Promise<void>, [], {}, any> => (
   (dispatch) => new Promise((res) => {
     dispatch(startPhotoLoad());
-    fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/perseverance/photos?sol=${sol}&api_key=VSZP5vE5UyWloRzpuFbFs2WuGcaC1B6Ngq8hFzqj`)
+    fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/perseverance/photos?sol=${sol}&api_key=${process.env.REACT_APP_API_KEY}`)
       .then((response) => response.json())
       .then((data) => {
         dispatch(loadPhotos(data.photos as unknown as NasaPhoto[]));
