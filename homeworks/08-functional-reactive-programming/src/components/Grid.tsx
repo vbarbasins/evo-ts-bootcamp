@@ -13,9 +13,7 @@ interface GridProps {
 }
 
 export const Grid: React.FC<GridProps> = ({ cells, onClick }) => {
-  // eslint-disable-next-line no-undef
-  const gridCells: JSX.Element[] = [];
-  cells.forEach((cell) => {
+  const gridCells = cells.map((cell) => {
     let el = <Wall/>;
     switch (cell.content) {
       case CellContent.CAT:
@@ -26,10 +24,10 @@ export const Grid: React.FC<GridProps> = ({ cells, onClick }) => {
         break;
       default: break;
     }
-    gridCells.push(
+    return (
       <div key={cell.id} className="cell" onClick={() => onClick(cell.content)}>
         {el}
-      </div>,
+      </div>
     );
   });
 
