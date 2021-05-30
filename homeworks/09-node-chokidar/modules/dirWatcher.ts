@@ -1,8 +1,17 @@
 import EventEmitter from 'events';
-import { watch } from 'fs';
+import { readdirSync, watch } from 'fs';
 
 export class DirWatcher {
-  constructor(public eventEmitter: EventEmitter, public dirPath: string) {}
+  private dirFiles: string[];
+
+  constructor(
+    public eventEmitter: EventEmitter,
+    public dirPath: string,
+    public fileExtention: string,
+  ) {
+    this.dirFiles = this.getFileNames();
+    console.log(this.dirFiles);
+  }
 
   watch = () => {
     watch(this.dirPath, (eventType, filename) => {
@@ -13,5 +22,21 @@ export class DirWatcher {
         console.log('filename not provided');
       }
     });
+    this.ownWatch(this.dirPath, 1000);
+  }
+
+  ownWatch = (path: string, interval: number): () => void => {
+    const int = setInterval(() => {
+      console.log(this.getFileNames());
+    }, interval);
+    return () => clearInterval(int);
+  }
+
+  getFileNames = (): string[] => {
+    const allFileNames = readdirSync(this.dirPath, 'utf8');
+    return allFileNames.filter((name) => (
+      name.includes(`.${this.fileExtention}`)
+      || name.includes(`.${this.fileExtention.toLowerCase()}`)
+    ));
   }
 }
