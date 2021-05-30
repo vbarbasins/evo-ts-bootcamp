@@ -1,19 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { Observable, Subject, Subscription } from 'rxjs';
 
-export const useObservable = (observable: any) => {
-  const [value, setValue] = useState(observable);
+export const useObservable = <T>(observable: Observable<T>, initial: T): T => {
+  const [value, setValue] = useState<T>(initial);
+  const subject = useMemo(() => new Subject(), []);
 
-  useEffect(
-    () => {
-      if (!observable || !observable.subscribe) {
-        return;
-      }
-      const subscription = observable.subscribe(setValue);
-      // eslint-disable-next-line consistent-return
-      return () => subscription.unsubscribe();
-    },
-    [observable],
-  );
+  useEffect(() => {
+    const subscription = new Subscription();
+    subscription.add(subject);
+    subscription.add(subject.pipe(() => observable).subscribe((subValue) => setValue(subValue)));
+    return () => subscription.unsubscribe();
+  }, [subject]);
 
   return value;
 };
