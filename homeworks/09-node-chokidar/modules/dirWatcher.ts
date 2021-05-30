@@ -2,15 +2,15 @@ import EventEmitter from 'events';
 import { readdirSync, watch } from 'fs';
 
 export class DirWatcher {
-  private dirFiles: string[];
+  private watchedFileNames: string[];
 
   constructor(
     public eventEmitter: EventEmitter,
     public dirPath: string,
     public fileExtention: string,
   ) {
-    this.dirFiles = this.getFileNames();
-    console.log(this.dirFiles);
+    this.watchedFileNames = this.getFileNames();
+    console.log(this.watchedFileNames);
   }
 
   watch = () => {
@@ -22,21 +22,38 @@ export class DirWatcher {
         console.log('filename not provided');
       }
     });
-    this.ownWatch(this.dirPath, 1000);
+    this.ownWatch(1000);
   }
 
-  ownWatch = (path: string, interval: number): () => void => {
+  ownWatch = (interval: number): () => void => {
     const int = setInterval(() => {
-      console.log(this.getFileNames());
+      const currentFileNames = this.getFileNames();
+      console.log('currentFileNames', currentFileNames);
+      const updatedFileNames = this.getUpdatedFiles(currentFileNames);
+      if (updatedFileNames.length > 0) {
+        this.watchedFileNames = currentFileNames;
+        this.eventEmitter.emit('dirwatcher:changed', updatedFileNames);
+      }
     }, interval);
     return () => clearInterval(int);
   }
 
-  getFileNames = (): string[] => {
+  private getFileNames = (): string[] => {
     const allFileNames = readdirSync(this.dirPath, 'utf8');
     return allFileNames.filter((name) => (
       name.includes(`.${this.fileExtention}`)
       || name.includes(`.${this.fileExtention.toLowerCase()}`)
     ));
+  }
+
+  private getUpdatedFiles = (fileNames: string[]): string[] => {
+    const updatedFileNames: string[] = [];
+    fileNames.forEach((name) => {
+      if (!this.watchedFileNames.includes(name)) updatedFileNames.push(name);
+    });
+    this.watchedFileNames.forEach((name) => {
+      if (!fileNames.includes(name)) updatedFileNames.push(name);
+    });
+    return updatedFileNames;
   }
 }
