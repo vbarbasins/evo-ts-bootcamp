@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   combineLatest, from, interval, of, Subject,
 } from 'rxjs';
-import { useObservableState } from 'observable-hooks';
 import { map, scan } from 'rxjs/operators';
 import './App.css';
+
+import { useObservable } from './hooks/useObservable';
 
 import { Grid } from './components/Grid';
 
@@ -37,7 +38,7 @@ export const App: React.FC = () => {
       scan((acc, count) => acc + count, 0),
     );
 
-  const cellsWithTarget = useObservableState(cellsWithTarget$, []);
+  const cellsWithTarget = useObservable(cellsWithTarget$);
 
   useEffect(() => {
     const sub = goodShots$.subscribe((v) => {
