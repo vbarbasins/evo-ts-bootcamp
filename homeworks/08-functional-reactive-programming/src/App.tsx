@@ -11,16 +11,16 @@ import { Grid } from './components/Grid';
 import { CellContent } from './types';
 
 export const App: React.FC = () => {
-  const cellsWithTarget = useObservable(gameGrid$, []);
+  const gameGrid = useObservable(gameGrid$, []);
   const goodShots = useObservable(goodShots$, 0);
 
   const handleClick = useCallback((target: CellContent) => {
     handleShot(target);
-  }, [cellsWithTarget]);
+  }, [gameGrid]);
 
   return (
     <div>
-      <Grid cells={cellsWithTarget} onClick={handleClick}/>
+      <Grid cells={gameGrid} onClick={handleClick}/>
       <p>Score: {goodShots}</p>
     </div>
   );

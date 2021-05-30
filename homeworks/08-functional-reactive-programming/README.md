@@ -1,6 +1,6 @@
 # Homework 08-functional-reactive-programming
 
-`this is shame project :D`
+Example project, how to pipefy things in react using self made hook.
 
 ## Available Scripts
 
