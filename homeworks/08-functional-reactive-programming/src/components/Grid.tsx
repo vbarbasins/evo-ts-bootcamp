@@ -12,24 +12,23 @@ interface GridProps {
   onClick: (content: CellContent) => void,
 }
 
+const getCellComponent = (cell: Cell) => {
+  switch (cell.content) {
+    case CellContent.CAT:
+      return <Cat/>;
+    case CellContent.WINDOW:
+      return <Window/>;
+    default:
+      return <Wall/>;
+  }
+};
+
 export const Grid: React.FC<GridProps> = ({ cells, onClick }) => {
-  const gridCells = cells.map((cell) => {
-    let el = <Wall/>;
-    switch (cell.content) {
-      case CellContent.CAT:
-        el = <Cat/>;
-        break;
-      case CellContent.WINDOW:
-        el = <Window/>;
-        break;
-      default: break;
-    }
-    return (
-      <div key={cell.id} className="cell" onClick={() => onClick(cell.content)}>
-        {el}
-      </div>
-    );
-  });
+  const gridCells = cells.map((cell) => (
+    <div key={cell.id} className="cell" onClick={() => onClick(cell.content)}>
+      {getCellComponent(cell)}
+    </div>
+  ));
 
   return (
     <div className="grid">
