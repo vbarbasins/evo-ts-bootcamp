@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import { readFile } from 'fs';
+import { promises } from 'fs';
 
 import { CHANGED_EVENT } from './dirWatcher';
 
@@ -17,14 +17,13 @@ export class Importer {
     });
   }
 
-  import = (path: string) => {
-    readFile(path, 'utf8', (error, data) => {
-      if (error) {
-        console.log(`File deleted: ${path}`);
-      } else {
-        console.log(`File added: ${path}`);
-        console.log(`Data in file: ${data}`);
-      }
-    });
-  }
+  public import = (path: string): Promise<void> => (
+    promises.readFile(path)
+      .then((buffer) => {
+        console.log(buffer);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  );
 }
