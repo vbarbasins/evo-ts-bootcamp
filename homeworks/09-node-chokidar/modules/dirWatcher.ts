@@ -17,10 +17,10 @@ export class DirWatcher {
     public config: DirWatcherConfig,
   ) {
     this.watchedFileNames = this.getFileNames();
-    this.eventEmitter.emit(CHANGED_EVENT, this.watchedFileNames);
   }
 
   public watch = (): () => void => {
+    this.eventEmitter.emit(CHANGED_EVENT, this.watchedFileNames);
     const int = setInterval(() => {
       const currentFileNames = this.getFileNames();
       const updatedFileNames = this.getUpdatedFiles(currentFileNames);
