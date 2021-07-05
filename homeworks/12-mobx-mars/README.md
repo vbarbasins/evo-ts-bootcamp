@@ -1,4 +1,6 @@
-# Homework 07-mars-viewer
+# Homework 12-mobx-mars
+
+## Same as in `07-mars-viewer` homework, but using `mobx`.
 
 This app is designed to collect favourite images gathered by NASA's Perseverance rover.
 
