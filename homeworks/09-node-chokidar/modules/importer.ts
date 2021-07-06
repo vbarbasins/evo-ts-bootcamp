@@ -32,9 +32,8 @@ export class Importer {
   );
 
   private importSync = (path: string): Object[] => {
-    let data;
     try {
-      data = readFileSync(path, 'utf8');
+      const data = readFileSync(path, 'utf8');
       return csvToJson(data);
     } catch (e) {
       console.log(`File removed at ${path}`);
