@@ -5,10 +5,12 @@ import { Importer, IMPORTED_EVENT } from './modules/importer';
 
 const PATH_TO_DATA = './data';
 
+const envWatchInterval = process.env.INTERVAL && Number(process.env.INTERVAL);
+
 const DIR_WATCHER_CONFIG: DirWatcherConfig = {
   dirPath: PATH_TO_DATA,
   fileExtention: 'CSV',
-  watchInterval: 10000,
+  watchInterval: envWatchInterval || 10000,
 };
 
 const eventEmitter = new EventEmitter();
