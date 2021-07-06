@@ -14,9 +14,13 @@ export class DirWatcher {
 
   constructor(
     public eventEmitter: EventEmitter,
-    public config: DirWatcherConfig,
+    private config: DirWatcherConfig,
   ) {
     this.watchedFileNames = this.getFileNames();
+  }
+
+  get configuration() {
+    return this.config;
   }
 
   public watch = (): () => void => {
