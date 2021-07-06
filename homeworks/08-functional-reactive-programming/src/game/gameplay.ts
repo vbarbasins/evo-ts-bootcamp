@@ -14,8 +14,8 @@ const emptyGrid = generateGrid();
 export const gameGrid$ = from(targetIndex$)
   .pipe(
     map((targetIndex) => {
-      const newGrid = JSON.parse(JSON.stringify(emptyGrid));
-      newGrid[targetIndex].content = CellContent.CAT;
+      const newGrid = [...emptyGrid];
+      newGrid[targetIndex] = { ...newGrid[targetIndex], content: CellContent.CAT };
       return newGrid;
     }),
   );
