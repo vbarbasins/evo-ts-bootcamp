@@ -1,29 +1,28 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 
 import styles from './PhotoViewer.module.css';
 
-import { useAppSelector } from '../hooks';
+import { useStore } from '../mobx';
 
 import { PhotoCard } from './PhotoCard';
 
-import { AppState, Photo } from '../types/common';
+import { Photo } from '../types/common';
 
-export const PhotoViewer: React.FC = () => {
-  const loadingPhotos = useAppSelector((state: AppState) => state.loadingPhotos);
-  const showingFavourites = useAppSelector((state: AppState) => state.showingFavourites);
-  const loadedPhotos = useAppSelector((state: AppState) => state.photos);
-  const currentSol = useAppSelector((state: AppState) => state.currentSol);
+export const PhotoViewer: React.FC = observer(() => {
+  const store = useStore();
 
   let content = <div className={styles.text}>
-    {loadingPhotos ? 'Loading...' : 'Photos are not loaded'}
+    {store.loadingPhotos ? 'Loading...' : 'Photos are not loaded'}
   </div>;
   let photosToShow: Photo[] = [];
 
-  if (loadedPhotos.length > 0) {
-    if (showingFavourites) {
-      photosToShow = loadedPhotos.filter((photo) => photo.favourite === true);
+  if (store.photos.length > 0) {
+    if (store.showingFavourites) {
+      photosToShow = store.photos.filter((photo) => photo.favourite === true);
     } else {
-      photosToShow = loadedPhotos.filter((photo) => photo.sol === currentSol);
+      photosToShow = store.photos
+        .filter((photo) => photo.sol === store.currentSol);
     }
   }
 
@@ -38,4 +37,4 @@ export const PhotoViewer: React.FC = () => {
   }
 
   return content;
-};
+});

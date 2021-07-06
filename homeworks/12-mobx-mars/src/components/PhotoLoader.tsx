@@ -1,49 +1,40 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 
 import styles from './PhotoLoader.module.css';
 
-import { useAppDispatch, useAppSelector } from '../hooks';
+import { useStore } from '../mobx';
 
-import {
-  hideFavouritePhotos,
-  loadPhotosAsync,
-  selectCurrentSol,
-  showFavouritePhotos,
-} from '../redux/actions';
-
-import { AppState } from '../types/common';
-
-export const PhotoLoader: React.FC = () => {
-  const currentSol = useAppSelector((state: AppState) => state.currentSol);
-  const showingFavourites = useAppSelector((state: AppState) => state.showingFavourites);
-  const anyFavourite = useAppSelector((state: AppState) => {
-    const isFavorite = state.photos.find((photo) => photo.favourite === true);
+export const PhotoLoader: React.FC = observer(() => {
+  const store = useStore();
+  const anyFavourite = () => {
+    const isFavorite = store.photos.find((photo) => photo.favourite === true);
     if (isFavorite) return true;
     return false;
-  });
-  const anyLoaded = useAppSelector((state: AppState) => {
-    const isLoaded = state.photos.find((photo) => photo.sol === currentSol);
+  };
+  const anyLoaded = () => {
+    const isLoaded = store.photos
+      .find((photo) => photo.sol === store.currentSol);
     if (isLoaded) return true;
     return false;
-  });
-  const dispatch = useAppDispatch();
+  };
 
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loadPhotosAsync(currentSol));
+    store.loadPhotosAsync(store.currentSol);
   };
 
   const favouriteButtonHandler = () => {
-    if (showingFavourites) {
-      dispatch(hideFavouritePhotos());
+    if (store.showingFavourites) {
+      store.hideFavouritePhotos();
     } else {
-      dispatch(showFavouritePhotos());
+      store.showFavouritePhotos();
     }
   };
 
   const inputHandler = (input: string) => {
     const sol = parseInt(input, 10);
-    dispatch(selectCurrentSol(sol));
+    store.selectCurrentSol(sol);
   };
 
   return (
@@ -55,26 +46,26 @@ export const PhotoLoader: React.FC = () => {
           disabled={!anyFavourite}
           onClick={favouriteButtonHandler}
         >
-          {`${showingFavourites ? 'Hide' : 'Show'} favourites`}
+          {`${store.showingFavourites ? 'Hide' : 'Show'} favourites`}
         </button>
         <input
           type="number"
           name="sol"
           className={styles.input}
           placeholder={'Select the sol'}
-          value={currentSol}
+          value={store.currentSol}
           onChange={(e) => inputHandler(e.target.value)}
           min="1"
-          disabled={showingFavourites}
+          disabled={store.showingFavourites}
         />
         <button
           type="submit"
           className={styles.button}
-          disabled={showingFavourites || anyLoaded}
+          disabled={store.showingFavourites || anyLoaded()}
         >
-          {anyLoaded ? 'Done for this sol' : 'Load'}
+          {anyLoaded() ? 'Done for this sol' : 'Load'}
         </button>
       </form>
     </div>
   );
-};
+});

@@ -1,10 +1,9 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 
 import styles from './PhotoCard.module.css';
 
-import { useAppDispatch } from '../hooks';
-
-import { addPhotoToFavourites, removePhotoFromFavourites } from '../redux/actions';
+import { useStore } from '../mobx';
 
 import { Photo } from '../types/common';
 
@@ -15,13 +14,13 @@ interface PhotoProps {
 const photoWidth = 500;
 const photoHeight = 400;
 
-export const PhotoCard: React.FC<PhotoProps> = ({ photo }) => {
-  const dispatch = useAppDispatch();
+export const PhotoCard: React.FC<PhotoProps> = observer(({ photo }) => {
+  const store = useStore();
   const clickHandler = () => {
     if (photo.favourite) {
-      dispatch(removePhotoFromFavourites(photo.id));
+      store.removePhotoFromFavourites(photo.id);
     } else {
-      dispatch(addPhotoToFavourites(photo.id));
+      store.addPhotoToFavourites(photo.id);
     }
   };
   return (
@@ -58,4 +57,4 @@ export const PhotoCard: React.FC<PhotoProps> = ({ photo }) => {
       </div>
     </div>
   );
-};
+});
