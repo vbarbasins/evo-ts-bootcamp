@@ -1,0 +1,12 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, var(--cell-width));
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--cell-width);
+  cursor: grab;
+}
